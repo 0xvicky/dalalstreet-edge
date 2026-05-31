@@ -1,0 +1,82 @@
+# ==========================================
+# 🐍 PYTHON / FASTAPI BACKEND
+# ==========================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+ENV.venv/
+
+# FastAPI / Uvicorn / Poetry / Pipenv logs & locks
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ==========================================
+# ⚛️ NEXT.JS / JAVASCRIPT / TAILWIND FRONTEND
+# ==========================================
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Tailwind CSS artifacts
+.tailwindcss/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# 🔑 SECURITY & SENSITIVE DATA (CRITICAL)
+# ==========================================
+
+# Environment variables (Never commit these!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# SQLite databases (commonly used in local FastAPI dev)
+*.db
+*.sqlite3
+
+# ==========================================
+# 💻 IDE & OPERATING SYSTEM FILES
+# ==========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# IDEs (VS Code, PyCharm, WebStorm)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
