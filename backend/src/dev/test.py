@@ -1,9 +1,10 @@
-from src.services.ticker_data import get_stock_data
+from src.services.ticker_data import get_stock_data, is_ttl_valid
 import redis
 import os
 from dotenv import load_dotenv
 import asyncio
 from src.services.ticker_data import get_yfinance_stock
+from src.cache.redis_conn import cache_manager
 
 load_dotenv()
 
@@ -24,10 +25,13 @@ def redis_cleanup():
 
 
 async def main():
+    cache_manager.initialize()
+    ttl = await is_ttl_valid("HDFCBANK.NS")
+    print(ttl)
     # get_ticker_info()
     # redis_cleanup()
-    res = await get_yfinance_stock("TATA", "NSE")
-    print(res)
+    # res = await get_yfinance_stock("HDFCBANK", "NSE")
+    # print(res)
 
 
 if __name__ == "__main__":

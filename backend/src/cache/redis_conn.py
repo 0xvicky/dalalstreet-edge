@@ -36,11 +36,17 @@ class CacheManager:
         res = await self.client.get(key)
         return json.loads(res) if res else None
 
-    async def set(self, ticker: str, exchg: str, data: dict):
+    async def set_data(self, ticker: str, data: str):
         if not self.client:
-            return
-        s_val = json.dumps(data)
-        await self.client.setex(f"{ticker}:{exchg}", CACHE_TTL, s_val)
+            print("in false")
+            return False
+        await self.client.setex(ticker, CACHE_TTL, data)
+        return True
+
+    async def ttl_status(self, key) -> int:
+        if not self.client:
+            return -2
+        return await self.client.ttl(key)
 
 
 cache_manager = CacheManager()

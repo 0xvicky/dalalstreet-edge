@@ -2,9 +2,12 @@ import yfinance as yf
 from typing import Optional
 from src.cache.redis_conn import cache_manager
 from fastapi import Depends
+import json
 
-import redis
 
+async def is_ttl_valid(key: str) -> bool:
+    ttl_val = await cache_manager.ttl_status(key)
+    return ttl_val
 
 def format_ticker(ticker: str, exchange: str) -> str:
     """Convert user input to yfinance format."""
@@ -101,11 +104,19 @@ async def get_yfinance_stock(ticker: str, exchange: str) -> dict:
     """Fetch the data if present in cache else from external source"""
 
     # check if redis cache exist
-    cache_key = f"{ticker}:{exchange}"
-    print("here we are")
+    cache_key = format_ticker(ticker, exchange)
+
     # if exist then check if ticker present and if yes then if under valid window
-    res = await cache_manager.get_data(cache_key)
-    if res is None:
-        print("Key doesn't exist")
+    cache_data = await cache_manager.get_data(cache_key)
+
+    ttl_val = is_ttl_valid(cache_key)
+    if cache_data is None or ttl_val <= 0:
+        print("Key doesn't exist or expired")
         # call the api
-        stock_info = get_stock_data()
+        api_data = get_stock_data(ticker, exchange)
+        serialised_data = json.dumps(api_data)
+        set_res = await cache_manager.set_data(cache_key, serialised_data)
+        if set_res:
+            return api_data
+        # return api_data
+    return cache_data
